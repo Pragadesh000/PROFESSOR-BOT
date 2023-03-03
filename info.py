@@ -21,7 +21,7 @@ def is_enabled(value, default):
 PORT = environ.get("PORT", "8080")
 WEBHOOK = bool(environ.get("WEBHOOK", True)) # for web support on/off
 SESSION = environ.get('SESSION', 'Media_search')
-API_ID = int(environ['API_ID '22233426'])
+API_ID = int(environ['API_ID' '22233426'])
 API_HASH = environ['API_HASH' '9a5923a6b2bf09e23b0bb48f25b5d95a']
 BOT_TOKEN = environ['BOT_TOKEN' '5901336470:AAGHX8uSpn3ZTtD9PTh0a4DJJEyU1iQaEGo']
 
