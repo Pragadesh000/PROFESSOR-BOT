@@ -33,7 +33,7 @@ BOT_START_TIME = time()
 
 # Admins, Channels & Users
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '5771348361').split()]
-CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1001839212555 -1001833597275').split()]
+CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1001839212555 -1001825640707').split()]
 auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '1899869233').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
 auth_channel = environ.get('AUTH_CHANNEL' '-1001701608511')
@@ -64,13 +64,13 @@ SHORT_API = environ.get("SHORT_API" '9012b0c8be803891be43e9ae6b9804999bd62f93')
 
 # Others
 IMDB_DELET_TIME = int(environ.get('IMDB_DELET_TIME', "1000"))
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1001597329217'))
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1001878509207'))
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', '@vedigundi_LinkZz')
 P_TTI_SHOW_OFF = is_enabled((environ.get('P_TTI_SHOW_OFF', "True")), True)
 PM_IMDB = environ.get('PM_IMDB', "True")
 IMDB = is_enabled((environ.get('IMDB', "True")), True)
 SINGLE_BUTTON = is_enabled((environ.get('SINGLE_BUTTON', "True")), True)
-CUSTOM_FILE_CAPTION = environ.get("CUSTOM_FILE_CAPTION", "{file_name}")
+CUSTOM_FILE_CAPTION = environ.get("CUSTOM_FILE_CAPTION", "⚡<b>File uploaded by [vedigundu Channel](https://t.me/vedigundi_LinkZz)</b>⚡\n\nName: {file_name} \n\n⚙️ <b>Size: </b><code>{file_size}</code>🔥  ↭ <b>Join Now [Vedigundu Channel](https://t.me/vedigundi_LinkZz)</b> ↭  🔥")
 BATCH_FILE_CAPTION = environ.get("BATCH_FILE_CAPTION", None)
 IMDB_TEMPLATE = environ.get("IMDB_TEMPLATE", "<b>Query: {query}</b> \n‌IMDb Data:\n\n🏷 Title: <a href={url}>{title}</a>\n🎭 Genres: {genres}\n📆 Year: <a href={url}/releaseinfo>{year}</a>\n🌟 Rating: <a href={url}/ratings>{rating}</a> / 10")
 LONG_IMDB_DESCRIPTION = is_enabled(environ.get("LONG_IMDB_DESCRIPTION", "False"), False)
