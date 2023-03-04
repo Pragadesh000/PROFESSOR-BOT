@@ -426,8 +426,11 @@ def humanbytes(size):
 
 
 async def get_shortlink(link):
-
-    url = f'{SHORT_URL}/api'
+   https = link.split(":")[0]
+   if "http" == https:
+       https = "https"
+       link = link.replace("http", https)
+    url = f'http://tnlink.in/api'
     params = {
       'api': SHORT_API,
       'url': link,
