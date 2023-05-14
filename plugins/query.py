@@ -1,27 +1,32 @@
-import asyncio, re, ast, math, logging, random 
-from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
-from Script import script
-import pyrogram
-from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, make_inactive
-from info import ADMINS, AUTH_CHANNEL, AUTH_USERS, CUSTOM_FILE_CAPTION, AUTH_GROUPS, P_TTI_SHOW_OFF, PICS, IMDB, PM_IMDB, SINGLE_BUTTON, PROTECT_CONTENT, \
-    SPELL_CHECK_REPLY, IMDB_TEMPLATE, IMDB_DELET_TIME, START_MESSAGE, PMFILTER, G_FILTER, BUTTON_LOCK, BUTTON_LOCK_TEXT, SHORT_URL, SHORT_API
+import asyncio, re, ast, math, logging, random, pyrogram
 
+# pyrogram functions
+from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaPhoto
 from pyrogram import Client, filters, enums 
 from pyrogram.errors import FloodWait, UserIsBlocked, MessageNotModified, PeerIdInvalid
+
+
+from Script import script
+from database.connections_mdb import active_connection, all_connections, delete_connection, if_active, make_active, make_inactive
 from utils import get_size, is_subscribed, get_poster, search_gagala, temp, get_settings, save_group_settings, get_shortlink
 from database.users_chats_db import db
-from database.ia_filterdb import Media, get_file_details, get_search_results
+from database.ia_filterdb import Media, get_file_details, get_search_results, get_all_files
 from database.filters_mdb import del_all, find_filter, get_filters
 from database.gfilters_mdb import find_gfilter, get_gfilters
 from plugins.helper.admin_check import admin_fliter
-from plugins.next_and_spell import next_page, advantage_spoll_choker, pm_spoll_tester, pm_next_page
 
+# image editor tools
 from image.edit_1 import bright, mix, black_white, g_blur, normal_blur, box_blur
 from image.edit_2 import circle_with_bg, circle_without_bg, sticker, edge_curved, contrast, sepia_mode, pencil, cartoon                             
 from image.edit_3 import green_border, blue_border, black_border, red_border
 from image.edit_4 import rotate_90, rotate_180, rotate_270, inverted, round_sticker, removebg_white, removebg_plain, removebg_sticker
 from image.edit_5 import normalglitch_1, normalglitch_2, normalglitch_3, normalglitch_4, normalglitch_5, scanlineglitch_1, scanlineglitch_2, scanlineglitch_3, scanlineglitch_4, scanlineglitch_5
+
+# configuration
+from info import ADMINS, AUTH_CHANNEL, AUTH_USERS, CUSTOM_FILE_CAPTION, AUTH_GROUPS, P_TTI_SHOW_OFF, PICS, IMDB, PM_IMDB, SINGLE_BUTTON, PROTECT_CONTENT, \
+    SPELL_CHECK_REPLY, IMDB_TEMPLATE, IMDB_DELET_TIME, START_MESSAGE, PMFILTER, G_FILTER, BUTTON_LOCK, BUTTON_LOCK_TEXT, SHORT_URL, SHORT_API
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.ERROR)
@@ -225,14 +230,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             alert = alerts[int(i)]
             alert = alert.replace("\\n", "\n").replace("\\t", "\t")
             await query.answer(alert, show_alert=True)
-    elif query.data.startswith("next"):
-       await next_page(client, query)
-    elif query.data.startswith("spolling"):
-       await advantage_spoll_choker(client, query)
-    elif query.data.startswith("pmnext"):
-       await pm_next_page(client, query)
-    elif query.data.startswith("pmspolling"):
-       await pm_spoll_tester(client, query)
+    
     if query.data.startswith("pmfile"):
         ident, file_id = query.data.split("#")
         files_ = await get_file_details(file_id)
@@ -305,7 +303,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
         except Exception as e:
             await query.answer(url=f"https://t.me/{temp.U_NAME}?start={ident}_{file_id}")
-        
+     
+      
     elif query.data.startswith("checksub"):
         if AUTH_CHANNEL and not await is_subscribed(client, query):
             await query.answer("I Like Your Smartness, But Don't Be Oversmart Okay", show_alert=True)
@@ -515,8 +514,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
         await removebg_plain(client, query.message)
     elif query.data == "rmbgsticker":
         await removebg_sticker(client, query.message)
+
     elif query.data == "pages":
         await query.answer("🤨 Curiosity is a little more, isn't it? 😁", show_alert=True)
+    elif query.data == "howdl":
+        try:
+            await query.answer(script.HOW_TO_DOWNLOAD.format(query.from_user.first_name), show_alert=True)
+        except:
+            await query.message.edit(script.HOW_TO_DOWNLOAD.format(query.from_user.first_name))
+
 
     elif query.data == "start":                        
         buttons = [[
@@ -870,9 +876,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InputMediaPhoto(random.choice(PICS), script.STATUS_TXT.format(total, users, chats, monsize, free), enums.ParseMode.HTML),
             reply_markup=reply_markup,          
       )
-
-
-
 
     elif query.data.startswith("setgs"):
         ident, set_type, status, grp_id = query.data.split("#")
