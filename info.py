@@ -33,7 +33,7 @@ BOT_START_TIME = time()
 
 # Admins, Channels & Users
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '5771348361').split()]
-CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1001749086203').split()]
+CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '1001825640707 -1001839212555 -1001833597275 -1001701608511').split()]
 auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '1899869233').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
 auth_channel = environ.get('AUTH_CHANNEL' '-1001701608511')
@@ -59,8 +59,8 @@ G_FILTER = bool(environ.get("G_FILTER", True))
 BUTTON_LOCK = environ.get("BUTTON_LOCK", "True")
 
 # url shortner
-SHORT_URL = environ.get("SHORT_URL" 'https://tnlink.in')
-SHORT_API = environ.get("SHORT_API" '9012b0c8be803891be43e9ae6b9804999bd62f93')
+SHORT_URL = environ.get("SHORT_URL" 'https://kpslink.in')
+SHORT_API = environ.get("SHORT_API" '73a2e9ab24d4554a2664d003c5f964516a63661c')
 
 # Others
 IMDB_DELET_TIME = int(environ.get('IMDB_DELET_TIME', "1000"))
